@@ -18,7 +18,7 @@ algorithms), we comment and document.
 
 So, I'll take an example inspired from the PySCF and TREXIO
 [(line 166 at the time of writing in the script of Giovanni in the trexio-test
-repo)](https://github.com/srampinogroup/trexio-test/blob/main/src/launch_dft_rks_v5_no-align.py#L166)
+repo)](https://github.com/srampinogroup/trexio-test/commit/4c73c70f9c69dc55d3d422508e1b2f3291039f4b#diff-605a680a0dd850224ebb63564714fd8c892478265a71680afbd3fcc5fd1fe3cb)
 as base exercise.
 
 In the script we see this pattern:
@@ -61,6 +61,31 @@ def compute_percentage(a: float, b: float) -> int:
 That could actually be entirely replaced by just `int(a / b * 100)`
 because if you try you'll see it will also error on division by zero.
 
+Important point that was raised: why don't we need a return value?
+Well that is the whole point of exceptions: this is an exceptional
+case, if we do not handle the error, every functions call since the
+begining will be halted. To be clear, everything is skipped when
+using exception up until a try statement or the main program:
+```python
+def a() -> str:
+  raise Exception("In a")
+  return "line never reached"
+
+def b() -> str:
+  var a_return_value = a()
+  # a_return_value does not have a value
+  return "line never reached either"
+
+def c() -> str:
+  var b_return_value = b()
+  # b_return_value does not have a value
+  return "line still never reached."
+
+print(c()) # will print nothing, line never reached.
+# Since we do not handle the exception, the terminal will print
+# Exception line # in file script.py: "In a"
+```
+
 So now the program will stop if we do not handle the error (and
 generally in scripts we want that).
 But now, what if there is an error, and I want to handle it? Because
@@ -82,7 +107,10 @@ Of course this is a silly example, we could just do a big
 `sys.exit(1)` if we have nothing to clean up, but now anyone using
 our code will not be able to handle the error and will have to suffer
 the crash. Exceptions should not be used as control flow, but at
-least you have to option to do so.
+least you have to option to do so. So now the exception will rise up
+from function calls to function calls up until the try statement, and
+jump directly to the except statement, and `percent` will not have a
+value.
 
 Just for reference hhe whole try pattern is as follows, but we seldom
 use it in its complete form except maybe in the main block to ensure
