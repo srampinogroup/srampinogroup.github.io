@@ -139,5 +139,16 @@ internet but I can add more info if needed. This is just how it looks
 like on my vim when editing code:
 ![Screenshot of pylint on original script](pylint_screenshot.png)
 
-[Example of installation of ALE in vim](https://stackoverflow.com/questions/56614721/how-to-correctly-enable-pylint-with-ale-in-vim)
+The simplest way to use a linter, is just that:
+```bash
+pip install pylint
+pylint script.py
+```
+And it will output a report. If you think you want/need to have it
+integrated in your editor, look it up here:
 
+[vim-ale](https://github.com/dense-analysis/ale)
+
+[Example of installation of ALE/pylint in vim](https://stackoverflow.com/questions/56614721/how-to-correctly-enable-pylint-with-ale-in-vim)
+
+[More info on linters](https://codilime.com/blog/python-code-quality-linters/)
