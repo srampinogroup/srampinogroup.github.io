@@ -178,7 +178,7 @@ def parse_xyz(path: str) -> MyXYZObject:
     line := file.read_line()
     try:
       num_atom = int(line)
-      assert(num_atom > 0) # will hard fail if num_atom is not > 0
+      assert num_atom > 0, "atom number must be poistive"# will hard fail if num_atom is not > 0
     except ValueError as verr:
       print("Encontered exception while parsing.", file=sys.stderr)
       print(verr, file=sys.stderr)
