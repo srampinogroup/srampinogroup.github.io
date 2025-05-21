@@ -147,9 +147,9 @@ See this answer on stackoverflow: [https://stackoverflow.com/a/49456279/2261265]
 Sometimes we want to make sure something never happens. Not
 exceptionally. Never. For this, we use assertions. They are generally
 removed by compilers in various languages for production ready code
-because like I said, this should never happen. Bu, it is still useful
-to have while in development. First, for unit testing. I will not try
-to detail what are unit tests here, but imagine you have the
+because like I said, this should never happen. But, it is still
+useful to have while in development. First, for unit testing. I will
+not try to detail what are unit tests here, but imagine you have the
 stupidest user always running your scripts while putting the most
 inimaginable rubbish input in them while all the same using it
 normally from time to time. That what unit tests are ideally. Awful
@@ -175,13 +175,15 @@ bonus, and how to print to stderr):
 import sys
 def parse_xyz(path: str) -> MyXYZObject:
   with open(path, "r", encoding="utf8") as read_file:
-    line = file.read_line()
+    line := file.read_line()
     try:
       num_atom = int(line)
       assert(num_atom > 0) # will hard fail if num_atom is not > 0
     except ValueError as verr:
       print("Encontered exception while parsing.", file=sys.stderr)
       print(verr, file=sys.stderr)
+
+    return parse_rest_of_file(str)
 ```
 
 ### with?
