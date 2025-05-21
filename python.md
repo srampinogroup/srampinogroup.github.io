@@ -142,6 +142,84 @@ during tests for example, then we do a warning.
 
 See this answer on stackoverflow: [https://stackoverflow.com/a/49456279/2261265](https://stackoverflow.com/a/49456279/2261265).
 
+## Note on assertions (advanced, do not worry too much about it)
+
+Sometimes we want to make sure something never happens. Not
+exceptionally. Never. For this, we use assertions. They are generally
+removed by compilers in various languages for production ready code
+because like I said, this should never happen. Bu, it is still useful
+to have while in development. First, for unit testing. I will not try
+to detail what are unit tests here, but imagine you have the
+stupidest user always running your scripts while putting the most
+inimaginable rubbish input in them while all the same using it
+normally from time to time. That what unit tests are ideally. Awful
+but thorough users. So if you know you have a positive number of
+atoms, then you can do in your code:
+```python
+assert number_of_atoms > 0, "Number of atom is zero or negative!"
+```
+So now, next you see this happening, you know you changed something
+you should not have. Unit tests are the industrial version of that.
+
+But, while in dev phase, it can be really useful. For example, if you
+have to parse a file, that you know is a `.xyz` file, you checked the
+extension etc. Turns out the first line is not conform to the format,
+because you messed up your ViM commands while saving. Here an assert
+can be considered: after all, trusting someone to respect to XYZ
+format is ok. But trusting yourself while you debug? Nope.
+
+So a sensible thing to add in your code (while in dev mode, I say
+again), is something like this (with some exception handling as a
+bonus, and how to print to stderr):
+```python
+import sys
+def parse_xyz(path: str) -> MyXYZObject:
+  with open(path, "r", encoding="utf8") as read_file:
+    line = file.read_line()
+    try:
+      num_atom = int(line)
+      assert(num_atom > 0) # will hard fail if num_atom is not > 0
+    except ValueError as verr:
+      print("Encontered exception while parsing.", file=sys.stderr)
+      print(verr, file=sys.stderr)
+```
+
+### with?
+
+You might have noticed the use of `with`. It is actually a shortcut
+for `try ... finally`. Let me explain. You can catch exception and do
+nothing with them, except (I swear puns not intended) still using the
+`finally` clause. Look at these exemples:
+```python
+f = trexio.File("file.hdf", "r")
+...
+f.close()
+```
+Good. but if while reading something happens, as I explained earlier,
+an exception would occur and then, no `close()`. And that is dirty.
+You do not want opened file descriptors. Nowadays it is almost always
+*not* a problem because OSs have progressed a lot, but while working
+on Arduino or clusters with other users, you want to be careful with
+that. So what we can do is using the `try ... finally` snippet I
+showed earlier:
+```python
+try:
+  f = trexio.File("file.hdf", "r")
+  do_whatever(f)
+except Something:
+    # Yes, we could care about that here
+finally:
+  # But we don't care about errors, we JUST care about closing the
+  # file. This will execute whatever happens.
+  f.close()
+```
+And that is exactly what this does, with a bit less of boilerplate:
+```python
+with trexio.File("file.hdf", "r") as f:
+  do_whatever(f)
+```
+Like in many other languages, `with` is just `try ... finally`.
+
 ## Type hints
 
 Look at this cheat sheet for python type hintings:
