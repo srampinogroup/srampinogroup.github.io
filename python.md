@@ -260,3 +260,27 @@ integrated in your editor, look it up here:
 [Example of installation of ALE/pylint in vim](https://stackoverflow.com/questions/56614721/how-to-correctly-enable-pylint-with-ale-in-vim)
 
 [More info on linters](https://codilime.com/blog/python-code-quality-linters/)
+
+## Configuration for 2 spaces indentation
+
+In vimrc:
+```vimrc
+aug python                                                            
+  au!                                                                
+  " ftype/python.vim overwrites this                                  
+  au FileType python setlocal ts=2 sts=2 sw=2 noexpandtab            
+aug end
+```
+
+In .pylintrc, change these lines:
+```pylintrc
+# Number of spaces of indent required inside a hanging or continued line.
+indent-after-paren = 2
+
+# String used as indentation unit. This is usually "    " (4 spaces) or "\t" (1
+# tab).
+indent-string = '  '
+
+# Maximum number of characters on a single line.
+max-line-length = 69
+```
