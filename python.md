@@ -112,7 +112,7 @@ from function calls to function calls up until the try statement, and
 jump directly to the except statement, and `percent` will not have a
 value.
 
-Just for reference hhe whole try pattern is as follows, but we seldom
+Just for reference the whole try pattern is as follows, but we seldom
 use it in its complete form except maybe in the main block to ensure
 every file is closed etc.
 ```python
@@ -133,7 +133,7 @@ ask oneself is this: if I put a warning, does it makes sense for the
 program to continue with the value I returned? Can the program
 actually do the computation when the returned value is
 `np.empty(3,3), float('NaN')`? If not, then it should not be a
-warning, and nothing should be returned. If is does makes sense
+warning, and nothing should be returned. If it *does* makes sense
 (like, the computation is only partially converged but the program
 can continue by doing a bad approximation) and can be desirable
 during tests for example, then we do a warning.
