@@ -263,8 +263,41 @@ integrated in your editor, look it up here:
 
 ## Configuration for 2 spaces indentation
 
-In vimrc:
+### From e-mail
+
+* Maximum line length: 69 chars. This is to be comfortable with having multiple columns layout on screen and makes it also all fit within some phone screen size.
+* Indentation of 2 spaces. Still visually impactful but saves some space with regards to previous point.
+* Apart from previous points, everything follows PEP 8.
+
+**If you use vim:**
+
+My .vim folder is in my personal repository (https://github.com/erwan-privat/.vim). You can use it as is, but check your version, I use vim 9 so if you have a weird "t_Co" or similar error, you have old vim.
+
+**If you use my .vim:** backup and remove your ~/.vimrc and ~/.vim/
+```bash
+cd ~
+mkdir vim_bak
+mv .vim .vimrc vim_bak/
+```
+
+clone into your home folder ~
+```bash
+git clone https://github.com/erwan-privat/.vim
+```
+in doubt run ``:PlugInstall`` in vim, but that should be done on first run, and you're good to go. As a bonus: `F6` in normal mode will give you a skeleton for a python file.
+
+**If not (but you use vim):**  
+I still encourage you to use the ALE plugin, it is a linter for virtually all languages that provides on-the-fly warnings by adding comments into the file you are editing. I recommend using Plug, it is really simple to use (https://github.com/junegunn/vim-plug), with plugin 'dense-analysis/ale': that will warn you on PEP convention, but also give you helpful reminder on `.tex` (or any, really) files. The relevant lines in my `~/.vim/vimrc` to use are
 ```vimrc
+set textwidth=69
+set colorcolumn=70
+set smartindent
+set autoindent
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+
 aug python                                                            
   au!                                                                
   " ftype/python.vim overwrites this                                  
@@ -272,8 +305,14 @@ aug python
 aug end
 ```
 
+Now when you are in vim, it will automatically wrap lines as you type. If you corrected something, added a parameter or whatever and the line is longer, you can use in normal mode the command gq on any selection or simply `gq<down>` to force vim to re-wrap correctly the line. Beware in code, it is not that magic. (For example applying to whole file `gggqG` will mess up your docstrings).
+
+**If you do not use vim:** I'm quite confident you have something similar in the options of your favorite editor.
+
+### pylint conf
+
 In .pylintrc, change these lines:
-```pylintrc
+```apacheconf
 # Number of spaces of indent required inside a hanging or continued line.
 indent-after-paren = 2
 
