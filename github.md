@@ -32,3 +32,7 @@ and enter the code that was given to you by the `gh` utility. Have
 your phone near you for the two-factor authentication. And that's it.
 
 Output of whole process should look like this:
+![image](https://github.com/user-attachments/assets/8a5129c8-3925-4499-96ce-5ee89bcb1f83)
+
+
+More info on `gh`: https://github.com/cli/cli
